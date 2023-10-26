@@ -14,8 +14,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using GenericProductAPI.Server.Services;
 
-namespace GenericProductAPI.Server2
+namespace GenericProductAPI.Server
 {
     public class Startup
     {
@@ -37,10 +38,10 @@ namespace GenericProductAPI.Server2
                 options.EnableSensitiveDataLogging();
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-
+            services.AddScoped<IProductService, ProductService>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "GenericProductAPI.Server2", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "GenericProductAPI.Server", Version = "v1" });
             });
         }
 

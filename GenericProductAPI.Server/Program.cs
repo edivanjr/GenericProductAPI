@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GenericProductAPI.Server2
+namespace GenericProductAPI.Server
 {
     public class Program
     {

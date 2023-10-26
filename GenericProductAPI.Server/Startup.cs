@@ -15,6 +15,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using GenericProductAPI.Server.Services;
+using GenericProductAPI.Shared;
+using GenericProductAPI.Shared.DTOs;
+using GenericProductAPI.Shared.Helpers;
 
 namespace GenericProductAPI.Server
 {
@@ -33,6 +36,7 @@ namespace GenericProductAPI.Server
             
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(ProductProfile));
             services.AddDbContext<ProductContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
@@ -52,7 +56,7 @@ namespace GenericProductAPI.Server
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GenericProductAPI.Server2 v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GenericProductAPI.Server v1"));
             }
 
             app.UseHttpsRedirection();

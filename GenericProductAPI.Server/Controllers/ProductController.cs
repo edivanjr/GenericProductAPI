@@ -18,9 +18,29 @@ namespace GenericProductAPI.Server.Controllers
         {
             _productService = productService;
         }
-        
 
-        [HttpPost]
+        [HttpPost("CreateMultipleProducts")]
+        public async Task<ActionResult<ServiceResponse<List<CreateProductDTO>>>> CreateMultipleProducts(CreateMultipleProductsDTO productsDTO)
+        {
+            try
+            {
+                var createdProducts = new List<CreateProductDTO>();
+
+                foreach (var productDTO in productsDTO.Products)
+                {
+                    var createdProduct = await _productService.CreateProduct(productDTO);
+                    createdProducts.Add(createdProduct.Data);
+                }
+
+                return Ok(new ServiceResponse<List<CreateProductDTO>> { Data = createdProducts, Message = "Products created successfully", Success = true });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ServiceResponse<List<CreateProductDTO>> { Data = null, Message = e.Message, Success = false });
+            }
+        }
+
+        [HttpPost("CreateProduct")]
         public async Task<ActionResult<ServiceResponse<CreateProductDTO>>> CreateProduct(CreateProductDTO productDTO)
         {
             try
@@ -33,7 +53,7 @@ namespace GenericProductAPI.Server.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("ListProducts")]
         public async Task<ActionResult<ServiceResponse<List<ProductDTO>>>> ListProducts(bool isActive)
         {
             try
@@ -46,7 +66,7 @@ namespace GenericProductAPI.Server.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut("EditProduct")]
         public async Task<ActionResult<ServiceResponse<ProductDTO>>> Edit(long productId, ProductDTO productDTO)
         {
             try
@@ -62,7 +82,7 @@ namespace GenericProductAPI.Server.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("DeleteProduct")]
         public async Task<ActionResult<ServiceResponse<ProductDTO>>> Delete(long productId, ProductDTO productDTO)
         { 
             try
